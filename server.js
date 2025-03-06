@@ -49,8 +49,8 @@ async function runAnalysis(dir, style = 'xml') {
         // Run analysis with output directly to file
         await runCli([dir], dir, {
             ignore: "**/*.diff",
-            format: style,
-            outputFile: outputPath
+            style: style,
+            output: outputFileName,
         });
 
         return outputPath;
