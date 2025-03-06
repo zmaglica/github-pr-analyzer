@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub PR Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><i class="fab fa-github"></i> GitHub PR Analyzer</h1>
+        <p class="subtitle">Analyze file changes in GitHub pull requests</p>
+    </header>
+
+    <main>
+        <form id="prForm">
+            <div class="input-group">
+                <label for="prUrl">GitHub Pull Request URL</label>
+                <input type="text" id="prUrl" name="prUrl" placeholder="https://github.com/username/repo/pull/123" required>
+            </div>
+
+            <div class="input-group analysis-options">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="runAiAnalysis">
+                    <label for="runAiAnalysis">Generate AI-friendly files analysis</label>
+                </div>
+                <div class="format-selector">
+                    <label for="aiAnalysisFormat">Output format:</label>
+                    <select id="aiAnalysisFormat">
+                        <option value="xml">XML</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="plain">Plain Text</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" id="analyzeBtn">
+                <i class="fas fa-code-branch"></i> Analyze PR
+            </button>
+        </form>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Processing pull request...</p>
+        </div>
+
+        <div id="results" class="hidden">
+            <div class="results-header">
+                <h2>Analysis Results</h2>
+                <div class="badge-container">
+                    <span id="repoBadge" class="badge badge-secondary">Repository</span>
+                    <span id="prIdBadge" class="badge">PR #0000</span>
+                </div>
+            </div>
+
+            <!-- PR Details Section -->
+            <div class="result-section">
+                <h3>PR Details</h3>
+                <div class="details-container">
+                    <div class="pr-details-box">
+                        <h4>PR Title: <span id="prTitle">Loading...</span></h4>
+                        <div class="controls">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="includePrDescription" checked>
+                                <label for="includePrDescription">Include PR Description</label>
+                            </div>
+                            <button id="copyPrDescBtn" class="btn-secondary">
+                                <i class="fas fa-copy"></i> Copy Description
+                            </button>
+                        </div>
+                        <pre id="prDescription" class="code-box">Loading PR description...</pre>
+                    </div>
+
+                    <div id="issueSection" class="pr-details-box hidden">
+                        <h4>Related Issue: <span id="issueNumber">Loading...</span></h4>
+                        <div class="controls">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="includeIssue" checked>
+                                <label for="includeIssue">Include Issue</label>
+                            </div>
+                            <button id="copyIssueBtn" class="btn-secondary">
+                                <i class="fas fa-copy"></i> Copy Issue
+                            </button>
+                        </div>
+                        <pre id="issueDescription" class="code-box">Loading issue details...</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diff Section -->
+            <div class="result-section">
+                <h3>Diff Content</h3>
+                <div class="controls">
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="includeDiff" checked>
+                            <label for="includeDiff">Include Diff</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="truncateDiff" checked>
+                            <label for="truncateDiff">Truncate Large Diffs</label>
+                            <span class="help-text">(limits diff to ~8000 chars for LLMs)</span>
+                        </div>
+                    </div>
+                    <button id="copyDiffBtn" class="btn-secondary">
+                        <i class="fas fa-copy"></i> Copy Diff
+                    </button>
+                </div>
+                <div class="diff-container">
+                    <pre id="diffContent" class="code-box">Loading diff content...</pre>
+                </div>
+            </div>
+
+            <!-- AI Analysis Section - Simplified -->
+            <div class="result-section" id="aiAnalysisSection">
+                <h3>AI-Friendly Files Analysis</h3>
+                <div class="file-path-container">
+                    <p id="analysisFileLocation">
+                        No analysis generated yet. Check "Generate AI-friendly files analysis" when analyzing a PR to create AI-friendly files.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Changed Files Section -->
+            <div class="result-section">
+                <h3>Changed Files <span id="fileCount" class="count-badge">0</span></h3>
+                <div class="file-list-container">
+                    <ul id="changedFilesList" class="file-list">
+                        <li>Loading files...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- LLM Prompt Generator Section -->
+            <div class="result-section">
+                <h3>LLM Prompt Generator</h3>
+                <div class="prompt-controls">
+                    <button id="generatePromptBtn" class="btn-primary">
+                        <i class="fas fa-robot"></i> Generate LLM Prompt
+                    </button>
+                    <button id="copyPromptBtn" class="btn-secondary">
+                        <i class="fas fa-copy"></i> Copy Prompt
+                    </button>
+                </div>
+                <pre id="generatedPrompt" class="code-box prompt-box">Click "Generate LLM Prompt" to create a prompt for your chosen AI assistant.</pre>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 PR Analyzer Tool</p>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
