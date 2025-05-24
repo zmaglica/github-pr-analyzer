@@ -6,7 +6,7 @@ A tool to analyze GitHub pull requests, fetch changed files, and run repomix ana
 
 - Automatically fetches PR diffs and details
 - Downloads all changed files from the PR
-- Runs repomix static analysis
+- Runs Repomix analysis to obtain changed files in a format compatible with LLMs
 - Generates LLM prompts for code review
 - Supports different output formats (XML, Markdown, Plain Text)
 - Includes file list and copy functionality
